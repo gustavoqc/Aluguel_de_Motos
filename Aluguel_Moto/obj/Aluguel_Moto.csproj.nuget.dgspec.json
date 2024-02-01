@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\Aluguel_Moto.csproj": {}
+    "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\Aluguel_Moto.csproj": {
+    "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\Aluguel_Moto.csproj",
+        "projectUniqueName": "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
         "projectName": "Aluguel_Moto",
-        "projectPath": "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\Aluguel_Moto.csproj",
+        "projectPath": "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
         "packagesPath": "C:\\Users\\gusta\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\obj\\",
+        "outputPath": "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,12 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "Npgsql": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

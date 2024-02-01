@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "K1laLFlZln/4JJBk1S4ROJt0W1CpzA0En9Ac5G5kgUshnlrHe9sOsq3uLLAnTXBjN0Jyd4o904ZkDqQ70ntCRQ==",
+  "dgSpecHash": "Fv+sH50brxljRwjPvD1Tq/zGUGZafxKC9wWBKFHUBNStOG4igWEc8VB9xOGAD66/ZZPpv9hyNJq7BtRM2z1KoQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gusta\\Desktop\\AluguelMoto\\Aluguel_Moto\\Aluguel_Moto.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\gusta\\.nuget\\packages\\npgsql\\8.0.1\\npgsql.8.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
