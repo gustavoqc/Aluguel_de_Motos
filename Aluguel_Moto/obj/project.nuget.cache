@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Fv+sH50brxljRwjPvD1Tq/zGUGZafxKC9wWBKFHUBNStOG4igWEc8VB9xOGAD66/ZZPpv9hyNJq7BtRM2z1KoQ==",
+  "dgSpecHash": "rim3ZKg9QxFUL21O6he6meUMGEtvCBIXWfpn/6SsEadpA5gpdp3GNLZydbinYC4x+n0Uo625BUQm0TKHM2t67Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gusta\\Source\\Repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
+  "projectFilePath": "C:\\Users\\gusta\\source\\repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto\\Aluguel_Moto.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",

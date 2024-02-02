@@ -30,7 +30,7 @@
         {
             txtPassword = new TextBox();
             btnLogin = new Button();
-            button2 = new Button();
+            btnSignup = new Button();
             txtUser = new MaskedTextBox();
             SuspendLayout();
             // 
@@ -38,7 +38,7 @@
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(203, 122);
+            txtPassword.Location = new Point(203, 100);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.PlaceholderText = "Password";
@@ -48,23 +48,23 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(203, 183);
+            btnLogin.Location = new Point(203, 162);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(75, 30);
-            btnLogin.TabIndex = 2;
+            btnLogin.TabIndex = 3;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
-            // button2
+            // btnSignup
             // 
-            button2.Location = new Point(315, 183);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 30);
-            button2.TabIndex = 3;
-            button2.Text = "Sign Up";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btnSignup.Location = new Point(315, 162);
+            btnSignup.Name = "btnSignup";
+            btnSignup.Size = new Size(75, 30);
+            btnSignup.TabIndex = 4;
+            btnSignup.Text = "Sign Up";
+            btnSignup.UseVisualStyleBackColor = true;
+            btnSignup.Click += btnSignup_Click;
             // 
             // txtUser
             // 
@@ -83,7 +83,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(634, 384);
             Controls.Add(txtUser);
-            Controls.Add(button2);
+            Controls.Add(btnSignup);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -102,7 +102,7 @@
         #endregion
         private TextBox txtPassword;
         private Button btnLogin;
-        private Button button2;
+        private Button btnSignup;
         private MaskedTextBox txtUser;
     }
 }

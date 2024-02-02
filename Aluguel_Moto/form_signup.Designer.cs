@@ -40,12 +40,14 @@
             label4 = new Label();
             label5 = new Label();
             btnLogin = new Button();
+            label6 = new Label();
+            txtPsw = new TextBox();
             SuspendLayout();
             // 
             // txtCNPJ
             // 
             txtCNPJ.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtCNPJ.Location = new Point(91, 27);
+            txtCNPJ.Location = new Point(89, 27);
             txtCNPJ.Name = "txtCNPJ";
             txtCNPJ.Size = new Size(187, 29);
             txtCNPJ.TabIndex = 2;
@@ -54,7 +56,7 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(91, 86);
+            txtName.Location = new Point(89, 86);
             txtName.Name = "txtName";
             txtName.Size = new Size(187, 23);
             txtName.TabIndex = 3;
@@ -62,17 +64,17 @@
             // dtBirth
             // 
             dtBirth.Format = DateTimePickerFormat.Short;
-            dtBirth.Location = new Point(91, 142);
+            dtBirth.Location = new Point(168, 123);
             dtBirth.Name = "dtBirth";
-            dtBirth.Size = new Size(100, 23);
+            dtBirth.Size = new Size(108, 23);
             dtBirth.TabIndex = 4;
             // 
             // numDL
             // 
-            numDL.Location = new Point(91, 202);
+            numDL.Location = new Point(91, 200);
             numDL.MaxLength = 12;
             numDL.Name = "numDL";
-            numDL.Size = new Size(154, 23);
+            numDL.Size = new Size(187, 23);
             numDL.TabIndex = 5;
             numDL.KeyPress += numDL_KeyPress;
             // 
@@ -81,9 +83,9 @@
             txtDL.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtDL.FormattingEnabled = true;
             txtDL.Items.AddRange(new object[] { "A", "A + B", "B" });
-            txtDL.Location = new Point(91, 260);
+            txtDL.Location = new Point(210, 152);
             txtDL.Name = "txtDL";
-            txtDL.Size = new Size(154, 23);
+            txtDL.Size = new Size(66, 23);
             txtDL.Sorted = true;
             txtDL.TabIndex = 6;
             // 
@@ -100,7 +102,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(91, 9);
+            label1.Location = new Point(89, 9);
             label1.Name = "label1";
             label1.Size = new Size(34, 15);
             label1.TabIndex = 8;
@@ -109,7 +111,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(91, 68);
+            label2.Location = new Point(89, 68);
             label2.Name = "label2";
             label2.Size = new Size(39, 15);
             label2.TabIndex = 9;
@@ -118,7 +120,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(91, 124);
+            label3.Location = new Point(89, 129);
             label3.Name = "label3";
             label3.Size = new Size(73, 15);
             label3.TabIndex = 10;
@@ -127,7 +129,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(91, 184);
+            label4.Location = new Point(89, 182);
             label4.Name = "label4";
             label4.Size = new Size(135, 15);
             label4.TabIndex = 11;
@@ -136,7 +138,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(91, 242);
+            label5.Location = new Point(89, 155);
             label5.Name = "label5";
             label5.Size = new Size(115, 15);
             label5.TabIndex = 12;
@@ -152,11 +154,30 @@
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(89, 237);
+            label6.Name = "label6";
+            label6.Size = new Size(57, 15);
+            label6.TabIndex = 14;
+            label6.Text = "Password";
+            // 
+            // txtPsw
+            // 
+            txtPsw.Location = new Point(89, 255);
+            txtPsw.MaxLength = 12;
+            txtPsw.Name = "txtPsw";
+            txtPsw.Size = new Size(187, 23);
+            txtPsw.TabIndex = 15;
+            // 
             // form_signup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(445, 373);
+            Controls.Add(txtPsw);
+            Controls.Add(label6);
             Controls.Add(btnLogin);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -190,5 +211,7 @@
         private Label label4;
         private Label label5;
         private Button btnLogin;
+        private Label label6;
+        private TextBox txtPsw;
     }
 }
