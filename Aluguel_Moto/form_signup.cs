@@ -44,7 +44,7 @@ namespace Aluguel_Moto
 
         private void btnSignUp_Click(object sender, EventArgs e)
         {
-            if (txtCNPJ.Text != "" && txtName.Text != "" && dtBirth.Value.ToString() != "" && numDL.Text != "" && txtDL.Text != "")
+            if (txtCNPJ.Text != "" && txtName.Text != "" && dtBirth.Value.ToString() != "" && numDL.Text != "" && txtDL.Text != "" && txtPsw.Text != "")
             {
                 txtCNPJ.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
                 if (txtCNPJ.Text.Length == 14)
@@ -57,7 +57,7 @@ namespace Aluguel_Moto
                         conn.Open();
                         try
                         {
-                            string sqlQuery = $"INSERT INTO user_data (user_cnpj, user_name, user_birth, user_dl_num, user_dl_type) VALUES (@cnpj, @name, @birth, @dlNum, @dlType)";
+                            string sqlQuery = $"INSERT INTO user_data (user_cnpj, user_name, user_birth, user_dl_num, user_dl_type, user_psw) VALUES (@cnpj, @name, @birth, @dlNum, @dlType, MD5(@password))";
                             using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                             {
                                 cmd.Parameters.AddWithValue("cnpj", txtCNPJ.Text.ToString());
@@ -65,6 +65,7 @@ namespace Aluguel_Moto
                                 cmd.Parameters.AddWithValue("birth", dtBirth.Value);
                                 cmd.Parameters.AddWithValue("dlNum", numDL.Text.ToString());
                                 cmd.Parameters.AddWithValue("dlType", txtDL.Text.ToString());
+                                cmd.Parameters.AddWithValue("password", txtPsw.Text.ToString());
                                 cmd.Prepare();
 
                                 cmd.ExecuteNonQuery();
@@ -73,7 +74,7 @@ namespace Aluguel_Moto
 
                                 this.Hide();
                                 form_login form_l = new form_login();
-                                form_l.ShowDialog();    
+                                form_l.ShowDialog();
                                 this.Close();
 
                             }
@@ -108,7 +109,7 @@ namespace Aluguel_Moto
         {
             this.Hide();
             form_login form_l = new form_login();
-            form_l.ShowDialog();    
+            form_l.ShowDialog();
             this.Close();
         }
     }

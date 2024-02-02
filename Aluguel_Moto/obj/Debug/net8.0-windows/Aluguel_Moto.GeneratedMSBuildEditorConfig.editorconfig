@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Aluguel_Moto
-build_property.ProjectDir = C:\Users\gusta\Source\Repos\Aplicacao-para-Aluguel-de-Motos\Aluguel_Moto\
+build_property.ProjectDir = C:\Users\gusta\source\repos\Aplicacao-para-Aluguel-de-Motos\Aluguel_Moto\Aluguel_Moto\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
