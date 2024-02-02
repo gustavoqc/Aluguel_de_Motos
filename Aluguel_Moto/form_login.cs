@@ -17,14 +17,6 @@ namespace Aluguel_Moto
             txtUser.Mask = "";
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            form_signup form_su = new form_signup();    
-            form_su.ShowDialog();
-            this.Close();
-        }
-
         private void txtUser_Leave(object sender, EventArgs e)
         {
             if (txtUser.Text.Length == 14)
