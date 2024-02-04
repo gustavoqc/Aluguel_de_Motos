@@ -1,4 +1,5 @@
 using Npgsql;
+using System.Data;
 using System.Xml.Linq;
 
 namespace Aluguel_Moto
@@ -31,11 +32,20 @@ namespace Aluguel_Moto
                     NpgsqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        MessageBox.Show("User connected!!");
-                        //this.Hide();
-                        //form_ form_ = new form_();
-                        //form_.ShowDialog();
-                        //this.Close();
+                        if (reader.GetValue(2).ToString()!.Equals("Admin"))
+                        {
+                            this.Hide();
+                            form_admin_int form_admin = new form_admin_int();
+                            form_admin.ShowDialog();
+                            this.Close();
+                        }
+                        else
+                        {
+                            //this.Hide();
+                            //form_user_int form_user = new form_user_int();
+                            //form_user.ShowDialog();
+                            //this.Close();
+                        }
                     }
                     else
                     {
