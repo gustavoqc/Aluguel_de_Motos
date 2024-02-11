@@ -56,23 +56,11 @@ namespace Aluguel_Moto
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                conn.Close();
             }
             finally
             {
                 conn.Close();
             }
-        }
-
-        private void txtUser_Enter(object sender, EventArgs e)
-        {
-            txtUser.Mask = "";
-        }
-
-        private void txtUser_Leave(object sender, EventArgs e)
-        {
-            if (txtUser.Text.Length == 14)
-                txtUser.Mask = "00,000,000/0000-00";
         }
 
         private void txtUser_KeyPress(object sender, KeyPressEventArgs e)

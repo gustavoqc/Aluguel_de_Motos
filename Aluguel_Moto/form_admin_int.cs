@@ -80,7 +80,6 @@ namespace Aluguel_Moto
             txtYear.Text = "";
             txtModel.Enabled = true;
             txtYear.Enabled = true;
-            btnCancelUpdate.Visible = false;
             btnRegVh.Text = "Registrate Vehicle";
         }
 
@@ -154,7 +153,6 @@ namespace Aluguel_Moto
                             txtYear.Text = "";
                             txtModel.Enabled = true;
                             txtYear.Enabled = true;
-                            btnCancelUpdate.Visible = false;
 
                             conn.Close();
                             btnCheckVh_Click(sender, e);
@@ -286,13 +284,11 @@ namespace Aluguel_Moto
             txtYear.Enabled = false;
 
             txtPlate.Focus();
-            btnCancelUpdate.Visible = true;
             btnRegVh.Text = "Update Vehicle";
         }
 
         private void btnCancelUpdate_Click(object sender, EventArgs e)
         {
-            btnNewVh_Click(sender, e);
             btnCheckVh_Click(sender, e);
         }
 

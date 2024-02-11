@@ -82,7 +82,6 @@ namespace Aluguel_Moto
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
-                            conn.Close();
                         }
                         finally
                         {
@@ -98,7 +97,6 @@ namespace Aluguel_Moto
                 {
                     MessageBox.Show("CNPJ should have 14 digits!");
                 }
-            }
             else
             {
                 MessageBox.Show("Complete all the fields correctly!");
