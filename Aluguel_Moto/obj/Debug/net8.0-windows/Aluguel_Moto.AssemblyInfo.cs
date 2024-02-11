@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Aluguel_Moto")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+555fdf56e79929a874de1b443daa191044fc0c09")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d65655e6f7868c3a6917252b453f37d6dfab5b3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Aluguel_Moto")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Aluguel_Moto")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

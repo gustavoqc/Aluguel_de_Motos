@@ -23,7 +23,7 @@ namespace Aluguel_Moto
         private void Listvehicles(string query)
         {
             conn.Open();
-            string sqlQuery = $"SELECT vh_plate AS \"License Plate\", vh_model AS \"Model\", vh_year AS \"Year\", CASE vh_rented WHEN 'false' THEN 'Not Rented' WHEN 'true' THEN 'Rented' END \"Rent Status\" FROM vh_reg ";
+            string sqlQuery = $"SELECT vh_id, vh_plate AS \"License Plate\", vh_model AS \"Model\", vh_year AS \"Year\", CASE vh_rented WHEN 'false' THEN 'Not Rented' WHEN 'true' THEN 'Rented' END \"Rent Status\" FROM vh_reg ";
 
             if (query != "default")
             {
@@ -50,6 +50,7 @@ namespace Aluguel_Moto
                         dtgListVh.DataSource = "";
 
                     cmd.Dispose();
+                    dtgListVh.Columns[0].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -71,9 +72,11 @@ namespace Aluguel_Moto
         private void btnNewVh_Click(object sender, EventArgs e)
         {
             btnNewVh.BackColor = Color.LightGray;
+            btnNewOrder.BackColor = Color.Transparent;
             btnCheckVh.BackColor = Color.Transparent;
-            pnlCheckVh.Hide();
-            pnlNewVh.Show();
+            pnlNewOrder.Visible = false;
+            pnlCheckVh.Visible = false;
+            pnlNewVh.Visible = true;
 
             txtModel.Text = "";
             txtPlate.Text = "";
@@ -86,8 +89,11 @@ namespace Aluguel_Moto
         private void btnCheckVh_Click(object sender, EventArgs e)
         {
             btnNewVh.BackColor = Color.Transparent;
+            btnNewOrder.BackColor = Color.Transparent;
             btnCheckVh.BackColor = Color.LightGray;
-            pnlCheckVh.Show();
+            pnlCheckVh.Visible = true;
+            pnlNewVh.Visible = false;
+            pnlNewOrder.Visible = false;
             Listvehicles("default");
         }
 
@@ -138,38 +144,47 @@ namespace Aluguel_Moto
             }
             else if (btnRegVh.Text.Equals("Update Vehicle"))
             {
-                conn.Open();
-
-                try
+                if (dtgListVh.SelectedCells[4].Value.Equals("Not Rented"))
                 {
-                    string sqlQuery = $"UPDATE vh_reg SET vh_plate = '" + txtPlate.Text.ToUpper().ToString() + "' WHERE vh_plate = '" + dtgListVh.SelectedCells[0].Value.ToString() + "' ";
-                    using (var cmd = new NpgsqlCommand(sqlQuery, conn))
-                    {
-                        if (cmd.ExecuteNonQuery() > 0)
-                        {
-                            MessageBox.Show("License Plate updated successfully!");
-                            txtModel.Text = "";
-                            txtPlate.Text = "";
-                            txtYear.Text = "";
-                            txtModel.Enabled = true;
-                            txtYear.Enabled = true;
+                    conn.Open();
 
-                            conn.Close();
-                            btnCheckVh_Click(sender, e);
-                        }
-                        else
+                    try
+                    {
+                        string sqlQuery = $"UPDATE vh_reg SET vh_plate = '" + txtPlate.Text.ToUpper().ToString() + "' WHERE vh_id = '" + dtgListVh.SelectedCells[0].Value.ToString() + "' ";
+                        using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                         {
-                            MessageBox.Show("There was an error while proccessing your requisition.");
+                            if (cmd.ExecuteNonQuery() > 0)
+                            {
+                                MessageBox.Show("License Plate updated successfully!");
+                                txtModel.Text = "";
+                                txtPlate.Text = "";
+                                txtYear.Text = "";
+                                txtModel.Enabled = true;
+                                txtYear.Enabled = true;
+
+                                conn.Close();
+                                btnCheckVh_Click(sender, e);
+                            }
+                            else
+                            {
+                                MessageBox.Show("There was an error while proccessing your requisition.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    conn.Close();
+                    btnEdit.Enabled = false;
+                    btnDelete.Enabled = false;
+                    MessageBox.Show("You can't update a vehicle with active rentals!", "Exclusion Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -196,17 +211,17 @@ namespace Aluguel_Moto
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            var message = MessageBox.Show("Are you sure you want delete the vehicle with plate \"" + dtgListVh.SelectedCells[0].Value.ToString() + "\"?", "Data Exclusion", MessageBoxButtons.YesNo);
+            var message = MessageBox.Show("Are you sure you want delete the vehicle with plate \"" + dtgListVh.SelectedCells[1].Value.ToString() + "\"?", "Data Exclusion", MessageBoxButtons.YesNo);
 
             if (message == DialogResult.Yes)
             {
-                if (dtgListVh.SelectedCells[3].Value.Equals("Not Rented"))
+                if (dtgListVh.SelectedCells[4].Value.Equals("Not Rented"))
                 {
                     conn.Open();
 
                     try
                     {
-                        string sqlQuery = $"DELETE FROM vh_reg WHERE vh_plate = '" + dtgListVh.SelectedCells[0].Value.ToString() + "'";
+                        string sqlQuery = $"DELETE FROM vh_reg WHERE vh_id = '" + dtgListVh.SelectedCells[0].Value.ToString() + "'";
                         using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                         {
                             if (cmd.ExecuteNonQuery() > 0)
@@ -276,9 +291,9 @@ namespace Aluguel_Moto
         {
             btnNewVh_Click(sender, e);
 
-            txtPlate.Text = dtgListVh.SelectedCells[0].Value.ToString();
-            txtModel.Text = dtgListVh.SelectedCells[1].Value.ToString();
-            txtYear.Text = dtgListVh.SelectedCells[2].Value.ToString();
+            txtPlate.Text = dtgListVh.SelectedCells[1].Value.ToString();
+            txtModel.Text = dtgListVh.SelectedCells[2].Value.ToString();
+            txtYear.Text = dtgListVh.SelectedCells[3].Value.ToString();
 
             txtModel.Enabled = false;
             txtYear.Enabled = false;
@@ -289,6 +304,13 @@ namespace Aluguel_Moto
 
         private void btnCancelUpdate_Click(object sender, EventArgs e)
         {
+            txtLabel.Text = "";
+            txtDesc.Text = "";
+            txtOrderValue.Text = "";
+            txtModel.Text = "";
+            txtYear.Text = "";
+            txtPlate.Text = "";
+
             btnCheckVh_Click(sender, e);
         }
 
@@ -298,6 +320,63 @@ namespace Aluguel_Moto
             dtgListVh.CurrentCell = null;
             btnEdit.Enabled = false;
             btnDelete.Enabled = false;
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            form_login frm_login = new();
+            frm_login.ShowDialog();
+            this.Close();
+        }
+
+        private void btnNewOrder_Click(object sender, EventArgs e)
+        {
+            btnNewOrder.BackColor = Color.LightGray;
+            btnCheckVh.BackColor = Color.Transparent;
+            btnNewVh.BackColor = Color.Transparent;
+
+            pnlNewVh.Visible = false;
+            pnlCheckVh.Visible = false;
+            pnlNewOrder.Visible = true;
+        }
+
+        private void btnCreateOrder_Click(object sender, EventArgs e)
+        {
+            conn.Open();
+
+            try
+            {
+                string sqlQuery = $"INSERT INTO order_reg (order_cdate, order_value, order_label, order_desc) VALUES (@cdate, @value, @label, @desc)";
+                using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("cdate", dtCreationD.Value);
+                    cmd.Parameters.AddWithValue("value", double.Parse(txtOrderValue.Text));
+                    cmd.Parameters.AddWithValue("label", txtLabel.Text.ToString());
+                    cmd.Parameters.AddWithValue("desc", txtDesc.Text.ToString());
+                    cmd.Prepare();
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        MessageBox.Show("Order registered successfully!");
+                        txtOrderValue.Text = "";
+                        txtLabel.Text = "";
+                        txtDesc.Text = "";
+                    }
+                    else
+                    {
+                        MessageBox.Show("There was an error while proccessing your requisition.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
