@@ -20,13 +20,13 @@ namespace Aluguel_Moto
         {
             NpgsqlConnection conn = db_conn();
             conn.Open();
-            
+
             try
             {
-                string sqlQuery = $"SELECT * FROM user_data WHERE user_cnpj = @cnpj AND user_psw = MD5(@password)";
+                string sqlQuery = $"SELECT * FROM user_data WHERE user_dl_num = @dl_num AND user_psw = MD5(@password)";
                 using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                 {
-                    cmd.Parameters.AddWithValue("cnpj", txtUser.Text.ToString());
+                    cmd.Parameters.AddWithValue("dl_num", txtUser.Text.ToString());
                     cmd.Parameters.AddWithValue("password", txtPassword.Text.ToString());
 
                     NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -41,10 +41,11 @@ namespace Aluguel_Moto
                         }
                         else
                         {
-                            //this.Hide();
-                            //form_user_int form_user = new form_user_int();
-                            //form_user.ShowDialog();
-                            //this.Close();
+                            this.Hide();
+                            form_user_int form_user = new form_user_int();
+                            form_user.user_data(reader.GetValue(4).ToString()!, reader.GetValue(5).ToString()!, reader.GetValue(0).ToString()!);
+                            form_user.ShowDialog();
+                            this.Close();
                         }
                     }
                     else
@@ -56,23 +57,11 @@ namespace Aluguel_Moto
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                conn.Close();
             }
             finally
             {
                 conn.Close();
             }
-        }
-
-        private void txtUser_Enter(object sender, EventArgs e)
-        {
-            txtUser.Mask = "";
-        }
-
-        private void txtUser_Leave(object sender, EventArgs e)
-        {
-            if (txtUser.Text.Length == 14)
-                txtUser.Mask = "00,000,000/0000-00";
         }
 
         private void txtUser_KeyPress(object sender, KeyPressEventArgs e)

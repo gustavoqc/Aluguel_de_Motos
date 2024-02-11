@@ -31,14 +31,14 @@
             txtPassword = new TextBox();
             btnLogin = new Button();
             btnSignup = new Button();
-            txtUser = new MaskedTextBox();
+            txtUser = new TextBox();
             SuspendLayout();
             // 
             // txtPassword
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(203, 100);
+            txtPassword.Location = new Point(203, 105);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.PlaceholderText = "Password";
@@ -48,6 +48,7 @@
             // 
             // btnLogin
             // 
+            btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Location = new Point(203, 162);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(75, 30);
@@ -58,6 +59,7 @@
             // 
             // btnSignup
             // 
+            btnSignup.FlatStyle = FlatStyle.Flat;
             btnSignup.Location = new Point(315, 162);
             btnSignup.Name = "btnSignup";
             btnSignup.Size = new Size(75, 30);
@@ -68,14 +70,15 @@
             // 
             // txtUser
             // 
-            txtUser.Font = new Font("Arial", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUser.Location = new Point(203, 54);
+            txtUser.BorderStyle = BorderStyle.FixedSingle;
+            txtUser.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtUser.Location = new Point(203, 55);
+            txtUser.MaxLength = 12;
             txtUser.Name = "txtUser";
-            txtUser.Size = new Size(187, 29);
+            txtUser.RightToLeft = RightToLeft.No;
+            txtUser.Size = new Size(187, 26);
             txtUser.TabIndex = 1;
-            txtUser.Enter += txtUser_Enter;
             txtUser.KeyPress += txtUser_KeyPress;
-            txtUser.Leave += txtUser_Leave;
             // 
             // form_login
             // 
@@ -103,6 +106,6 @@
         private TextBox txtPassword;
         private Button btnLogin;
         private Button btnSignup;
-        private MaskedTextBox txtUser;
+        private TextBox txtUser;
     }
 }

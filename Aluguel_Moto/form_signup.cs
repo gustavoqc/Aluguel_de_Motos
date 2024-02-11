@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,66 +44,71 @@ namespace Aluguel_Moto
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
-        {
+        { 
             if (txtCNPJ.Text != "" && txtName.Text != "" && dtBirth.Value.ToString() != "" && numDL.Text != "" && txtDL.Text != "" && txtPsw.Text != "")
             {
-                txtCNPJ.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-                if (txtCNPJ.Text.Length == 14)
+                if (txtDL.Text.Equals("A") || txtDL.Text.Equals("B") || txtDL.Text.Equals("A + B")) 
                 {
-                    if (numDL.Text.Length == 12)
+                    txtCNPJ.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+                    if (txtCNPJ.Text.Length == 14)
                     {
-                        txtCNPJ.TextMaskFormat = MaskFormat.IncludeLiterals;
-
-                        NpgsqlConnection conn = db_conn();
-                        conn.Open();
-                        try
+                        if (numDL.Text.Length == 12)
                         {
-                            string sqlQuery = $"INSERT INTO user_data (user_cnpj, user_name, user_birth, user_dl_num, user_dl_type, user_psw) VALUES (@cnpj, @name, @birth, @dlNum, @dlType, MD5(@password))";
-                            using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                            txtCNPJ.TextMaskFormat = MaskFormat.IncludeLiterals;
+
+                            NpgsqlConnection conn = db_conn();
+                            conn.Open();
+                            try
                             {
-                                cmd.Parameters.AddWithValue("cnpj", txtCNPJ.Text.ToString());
-                                cmd.Parameters.AddWithValue("name", txtName.Text.ToString());
-                                cmd.Parameters.AddWithValue("birth", dtBirth.Value);
-                                cmd.Parameters.AddWithValue("dlNum", numDL.Text.ToString());
-                                cmd.Parameters.AddWithValue("dlType", txtDL.Text.ToString());
-                                cmd.Parameters.AddWithValue("password", txtPsw.Text.ToString());
-                                cmd.Prepare();
+                                string dir = @"C:\VehRental\";
+                                string sqlQuery = $"INSERT INTO user_data (user_cnpj, user_name, user_birth, user_dl_num, user_dl_categ, user_psw) VALUES (@cnpj, @name, @birth, @dlNum, @dlCateg, MD5(@password))";
+                            
+                                using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                                {
+                                    cmd.Parameters.AddWithValue("cnpj", txtCNPJ.Text.ToString());
+                                    cmd.Parameters.AddWithValue("name", txtName.Text.ToString());
+                                    cmd.Parameters.AddWithValue("birth", dtBirth.Value);
+                                    cmd.Parameters.AddWithValue("dlNum", numDL.Text.ToString());
+                                    cmd.Parameters.AddWithValue("dlCateg", txtDL.Text.ToString());
+                                    cmd.Parameters.AddWithValue("password", txtPsw.Text.ToString());
+                                    cmd.Prepare();
 
-                                cmd.ExecuteNonQuery();
+                                    cmd.ExecuteNonQuery();
 
-                                MessageBox.Show("User added sucessfully!");
+                                    if (!Directory.Exists(dir))
+                                        Directory.CreateDirectory(dir);
 
-                                this.Hide();
-                                form_login form_l = new form_login();
-                                form_l.ShowDialog();
-                                this.Close();
+                                    imgDL.Image.Save(dir + "dl_image.png");
 
+                                    MessageBox.Show("User added sucessfully!");
+
+                                    this.Hide();
+                                    form_login form_l = new form_login();
+                                    form_l.ShowDialog();
+                                    this.Close();
+
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                            finally
+                            {
+                                conn.Close();
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                            conn.Close();
-                        }
-                        finally
-                        {
-                            conn.Close();
-                        }
+                        else
+                            MessageBox.Show("Driver's License Number should have 12 digits!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     else
-                    {
-                        MessageBox.Show("Driver's License Number should have 12 digits!");
-                    }
+                        MessageBox.Show("CNPJ should have 14 digits!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
-                {
-                    MessageBox.Show("CNPJ should have 14 digits!");
-                }
+                    MessageBox.Show("Select a valid category!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
-            {
-                MessageBox.Show("Complete all the fields correctly!");
-            }
+                MessageBox.Show("Complete all the fields correctly!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -111,6 +117,24 @@ namespace Aluguel_Moto
             form_login form_l = new form_login();
             form_l.ShowDialog();
             this.Close();
+        }
+
+        private void btnImage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog imgDialog= new OpenFileDialog();
+                imgDialog.Filter = "Image Files (*.bmp;*.png)|*.BMP;*.PNG";
+
+                if (imgDialog.ShowDialog() == DialogResult.OK)
+                {
+                    imgDL.ImageLocation = imgDialog.FileName;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
     }
 }
