@@ -32,16 +32,17 @@
             btnLogin = new Button();
             btnSignup = new Button();
             txtUser = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
             SuspendLayout();
             // 
             // txtPassword
             // 
             txtPassword.BorderStyle = BorderStyle.FixedSingle;
             txtPassword.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(203, 105);
+            txtPassword.Location = new Point(104, 111);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
-            txtPassword.PlaceholderText = "Password";
             txtPassword.RightToLeft = RightToLeft.No;
             txtPassword.Size = new Size(187, 26);
             txtPassword.TabIndex = 2;
@@ -49,7 +50,7 @@
             // btnLogin
             // 
             btnLogin.FlatStyle = FlatStyle.Flat;
-            btnLogin.Location = new Point(203, 162);
+            btnLogin.Location = new Point(101, 158);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(75, 30);
             btnLogin.TabIndex = 3;
@@ -60,7 +61,7 @@
             // btnSignup
             // 
             btnSignup.FlatStyle = FlatStyle.Flat;
-            btnSignup.Location = new Point(315, 162);
+            btnSignup.Location = new Point(216, 158);
             btnSignup.Name = "btnSignup";
             btnSignup.Size = new Size(75, 30);
             btnSignup.TabIndex = 4;
@@ -72,7 +73,7 @@
             // 
             txtUser.BorderStyle = BorderStyle.FixedSingle;
             txtUser.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtUser.Location = new Point(203, 55);
+            txtUser.Location = new Point(104, 49);
             txtUser.MaxLength = 12;
             txtUser.Name = "txtUser";
             txtUser.RightToLeft = RightToLeft.No;
@@ -80,11 +81,31 @@
             txtUser.TabIndex = 1;
             txtUser.KeyPress += txtUser_KeyPress;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(101, 90);
+            label1.Name = "label1";
+            label1.Size = new Size(78, 18);
+            label1.TabIndex = 5;
+            label1.Text = "Password";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(104, 28);
+            label2.Name = "label2";
+            label2.Size = new Size(179, 18);
+            label2.TabIndex = 6;
+            label2.Text = "Driver's License Number";
+            // 
             // form_login
             // 
             AutoScaleDimensions = new SizeF(9F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(634, 384);
+            ClientSize = new Size(406, 231);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(txtUser);
             Controls.Add(btnSignup);
             Controls.Add(btnLogin);
@@ -107,5 +128,7 @@
         private Button btnLogin;
         private Button btnSignup;
         private TextBox txtUser;
+        private Label label1;
+        private Label label2;
     }
 }

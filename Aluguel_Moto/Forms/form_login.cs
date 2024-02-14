@@ -8,7 +8,7 @@ namespace Aluguel_Moto
     {
         private static NpgsqlConnection db_conn()
         {
-            return new NpgsqlConnection(@"Server=localhost;Port=5432;Username=postgres;Password=1234;Database=RentalDB");
+            return new NpgsqlConnection(@"Server=silly.db.elephantsql.com;Username=vrbndbuv;Password=nwFLYEvX5yvnIK-BZAqDKdSD9JTkdDLD;Database=vrbndbuv");
         }
 
         public form_login()
@@ -32,11 +32,13 @@ namespace Aluguel_Moto
                     NpgsqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        if (reader.GetValue(2).ToString()!.Equals("Admin"))
+                        if (reader.GetValue(7).ToString()!.Equals("True"))
                         {
                             this.Hide();
                             form_admin_int form_admin = new form_admin_int();
                             form_admin.ShowDialog();
+
+                            
                             this.Close();
                         }
                         else
