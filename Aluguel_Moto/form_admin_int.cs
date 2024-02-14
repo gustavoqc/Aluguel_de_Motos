@@ -103,10 +103,6 @@ namespace Aluguel_Moto
             {
                 if (txtYear.Text.Length == 4 && txtYear.Text != "" && txtModel.Text != "" && txtPlate.Text != "" && txtPlate.Text.Length == 7)
                 {
-                    conn.Open();
-
-                    try
-                    {
                         string sqlQuery = $"INSERT INTO vh_reg (vh_plate, vh_model, vh_year) VALUES (@plate, @model, @year)";
                         using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                         {
@@ -128,15 +124,6 @@ namespace Aluguel_Moto
                             }
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-                }
                 else
                 {
                     MessageBox.Show("Fill all the informations properly!");
@@ -144,12 +131,6 @@ namespace Aluguel_Moto
             }
             else if (btnRegVh.Text.Equals("Update Vehicle"))
             {
-                if (dtgListVh.SelectedCells[4].Value.Equals("Not Rented"))
-                {
-                    conn.Open();
-
-                    try
-                    {
                         string sqlQuery = $"UPDATE vh_reg SET vh_plate = '" + txtPlate.Text.ToUpper().ToString() + "' WHERE vh_id = '" + dtgListVh.SelectedCells[0].Value.ToString() + "' ";
                         using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                         {
@@ -180,14 +161,6 @@ namespace Aluguel_Moto
                         conn.Close();
                     }
                 }
-                else
-                {
-                    btnEdit.Enabled = false;
-                    btnDelete.Enabled = false;
-                    MessageBox.Show("You can't update a vehicle with active rentals!", "Exclusion Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-        }
 
         private void txtYear_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -215,8 +188,6 @@ namespace Aluguel_Moto
 
             if (message == DialogResult.Yes)
             {
-                if (dtgListVh.SelectedCells[4].Value.Equals("Not Rented"))
-                {
                     conn.Open();
 
                     try
@@ -248,13 +219,6 @@ namespace Aluguel_Moto
                 }
                 else
                 {
-                    btnEdit.Enabled = false;
-                    btnDelete.Enabled = false;
-                    MessageBox.Show("You can't delete a vehicle with active rentals!", "Exclusion Failed");
-                }
-            }
-            else
-            {
                 Listvehicles("default");
             }
         }
@@ -304,9 +268,6 @@ namespace Aluguel_Moto
 
         private void btnCancelUpdate_Click(object sender, EventArgs e)
         {
-            txtLabel.Text = "";
-            txtDesc.Text = "";
-            txtOrderValue.Text = "";
             txtModel.Text = "";
             txtYear.Text = "";
             txtPlate.Text = "";
@@ -336,8 +297,6 @@ namespace Aluguel_Moto
             btnCheckVh.BackColor = Color.Transparent;
             btnNewVh.BackColor = Color.Transparent;
 
-            pnlNewVh.Visible = false;
-            pnlCheckVh.Visible = false;
             pnlNewOrder.Visible = true;
         }
 
