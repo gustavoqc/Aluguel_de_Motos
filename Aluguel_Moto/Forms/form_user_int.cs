@@ -1,4 +1,6 @@
 ﻿using Npgsql;
+using RabbitMQ.Client.Events;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,9 +20,16 @@ namespace Aluguel_Moto
         string? dl_num, dl_ctg, id_user;
         int days;
 
+        private readonly NpgsqlConnection conn = db_conn();
+        static string? basicConsumer;
+        static ConnectionFactory? factory;
+        static IConnection? connection;
+        static IModel? channel;
+        static EventingBasicConsumer? consumer;
+
         private static NpgsqlConnection db_conn()
         {
-            return new NpgsqlConnection(@"Server=localhost;Port=5432;Username=postgres;Password=1234;Database=RentalDB");
+            return new NpgsqlConnection(@"Server=silly.db.elephantsql.com;Username=vrbndbuv;Password=nwFLYEvX5yvnIK-BZAqDKdSD9JTkdDLD;Database=vrbndbuv");
         }
 
         public form_user_int()
@@ -37,6 +46,43 @@ namespace Aluguel_Moto
             dl_num = user_dl;
             dl_ctg = dl_categ;
             id_user = user_id;
+
+            createConsumer();
+        }
+
+        private void createConsumer()
+        {
+            try
+            {
+                string sqlQuery;
+                conn.Open();
+
+                sqlQuery = $"SELECT * FROM vh_rental WHERE rtl_user = " + id_user;
+                using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                {
+                    NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        reader.DisposeAsync();
+                        sqlQuery = $"SELECT * FROM order_receipt WHERE rcpt_user = " + id_user;
+                        using (var selectCmd = new NpgsqlCommand(sqlQuery, conn))
+                        {
+                            reader = selectCmd.ExecuteReader();
+                            if (!reader.HasRows)
+                                consume_message("ActiveRental");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private bool check_category()
@@ -49,11 +95,11 @@ namespace Aluguel_Moto
 
         private void btnRentVh_Click(object sender, EventArgs e)
         {
-            btnRentVh.BackColor = Color.LightGray;
             btnRentalStatus.BackColor = Color.Transparent;
+            btnCheckOrder.BackColor = Color.Transparent;
             btnProfile.BackColor = Color.Transparent;
+            btnRentVh.BackColor = Color.LightGray;
 
-            NpgsqlConnection conn = db_conn();
             conn.Open();
 
             try
@@ -65,7 +111,8 @@ namespace Aluguel_Moto
 
                     if (reader.HasRows)
                     {
-                        btnRentalStatus.Visible = true;
+                        btnRentalStatus.Enabled = true;
+                        btnCheckOrder.Enabled = true;
                         btnRentalStatus_Click(sender, e);
                         MessageBox.Show("You already have an active rental!", "Rental", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -78,7 +125,11 @@ namespace Aluguel_Moto
                         lblTotal.Text = "";
 
                         pnlRentalSol.Visible = false;
+                        pnlRentStat.Visible = false;
                         pnlSelectVh.Visible = false;
+                        pnlProfile.Visible = false;
+                        pnlCheckOrder.Visible = false;
+                        pnlOrderStatus.Visible = false;
                         pnlRentVh.Visible = true;
                         CenterToScreen();
 
@@ -114,7 +165,6 @@ namespace Aluguel_Moto
 
         private void form_user_int_Load(object sender, EventArgs e)
         {
-            NpgsqlConnection conn = db_conn();
             conn.Open();
 
             try
@@ -126,7 +176,8 @@ namespace Aluguel_Moto
 
                     if (reader.HasRows)
                     {
-                        btnRentalStatus.Visible = true;
+                        btnRentalStatus.Enabled = true;
+                        btnCheckOrder.Enabled = true;
                         btnRentalStatus_Click(sender, e);
                     }
                     else
@@ -157,7 +208,7 @@ namespace Aluguel_Moto
             days = dayCount;
             lblRentalPeriod.Text = dayCount.ToString() + " Days";
             lblDaily.Text = "Daily: R$" + daily;
-            lblTotal.Text = "Total: R$" + total;
+            lblTotal.Text = total;
             pnlRentalSol.Visible = true;
             pnlRentStat.Visible = false;
             pnlProfile.Visible = false;
@@ -330,7 +381,6 @@ namespace Aluguel_Moto
             pnlRentalSol.Visible = false;
             pnlSelectVh.Visible = true;
 
-            NpgsqlConnection conn = db_conn();
             conn.Open();
 
             try
@@ -372,7 +422,6 @@ namespace Aluguel_Moto
 
         private void btnSelectVh_Click(object sender, EventArgs e)
         {
-            NpgsqlConnection conn = db_conn();
             conn.Open();
 
             try
@@ -406,10 +455,14 @@ namespace Aluguel_Moto
                         newCmd.Prepare();
 
                         if (newCmd.ExecuteNonQuery() > 0)
+                        {
                             MessageBox.Show("Rental complete sucessfully!");
+                            consume_message("ActiveRental");
+                        }
                     }
 
-                    btnRentalStatus.Visible = true;
+                    btnRentalStatus.Enabled = true;
+                    btnCheckOrder.Enabled = true;
                     btnRentalStatus_Click(sender, e);
                 }
             }
@@ -425,17 +478,25 @@ namespace Aluguel_Moto
 
         private void btnRentalStatus_Click(object sender, EventArgs e)
         {
+            conn.Close();
+            Size = new Size(630, 450);
+            CenterToScreen();
+
             btnRentVh.BackColor = Color.Transparent;
             btnProfile.BackColor = Color.Transparent;
+            btnCheckOrder.BackColor = Color.Transparent;
             btnRentalStatus.BackColor = Color.LightGray;
 
-            pnlRentVh.Visible = false;
+            pnlCheckOrder.Visible = false;
+            pnlRentalSol.Visible = false;
             pnlSelectVh.Visible = false;
+            pnlProfile.Visible = false;
+            pnlRentVh.Visible = false;
+            pnlOrderStatus.Visible = false;
             pnlRentStat.Visible = true;
 
             if (pnlRentStat.Visible)
             {
-                NpgsqlConnection conn = db_conn();
                 conn.Open();
 
                 try
@@ -474,6 +535,8 @@ namespace Aluguel_Moto
 
         private void btnLogOut_Click(object sender, EventArgs e)
         {
+            StopConsuming();
+
             this.Hide();
             form_login frm_login = new();
             frm_login.ShowDialog();
@@ -484,18 +547,20 @@ namespace Aluguel_Moto
         {
             Size = new Size(630, 450);
             CenterToScreen();
-            
+
             btnRentVh.BackColor = Color.Transparent;
             btnRentalStatus.BackColor = Color.Transparent;
+            btnCheckOrder.BackColor = Color.Transparent;
             btnProfile.BackColor = Color.LightGray;
 
             pnlRentVh.Visible = false;
             pnlSelectVh.Visible = false;
             pnlRentStat.Visible = false;
             pnlRentalSol.Visible = false;
+            pnlCheckOrder.Visible = false;
+            pnlOrderStatus.Visible = false;
             pnlProfile.Visible = true;
 
-            NpgsqlConnection conn = db_conn();
             conn.Open();
 
             try
@@ -560,6 +625,335 @@ namespace Aluguel_Moto
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private void btnCheckOrder_Click(object sender, EventArgs e)
+        {
+            Size = new Size(725, 450);
+            CenterToScreen();
+
+            btnRentVh.BackColor = Color.Transparent;
+            btnRentalStatus.BackColor = Color.Transparent;
+            btnProfile.BackColor = Color.Transparent;
+            btnCheckOrder.BackColor = Color.LightGray;
+
+            pnlRentalSol.Visible = false;
+            pnlRentStat.Visible = false;
+            pnlSelectVh.Visible = false;
+            pnlProfile.Visible = false;
+            pnlRentVh.Visible = false;
+            pnlOrderStatus.Visible = false;
+            pnlCheckOrder.Visible = true;
+
+            List_Orders();
+        }
+
+        private void List_Orders()
+        {
+            try
+            {
+                string sqlQuery;
+                conn.Open();
+
+                sqlQuery = $"SELECT * FROM order_receipt WHERE rcpt_user = " + id_user;
+                using (var checkOrder = new NpgsqlCommand(sqlQuery, conn))
+                {
+                    NpgsqlDataReader order_res = checkOrder.ExecuteReader();
+
+                    if (order_res.HasRows)
+                    {
+                        conn.Close();
+                        pnlCheckOrder.Visible = false;
+                        pnlOrderStatus.Visible = true;
+                    }
+                    else
+                    {
+                        order_res.CloseAsync();
+                        checkOrder.Dispose();
+                        sqlQuery = $"SELECT order_id, order_label AS \"Label\", order_desc AS \"Description\", order_value AS \"Value\", order_cdate AS \"Creation date\", order_status AS \"Status\" FROM mss_rcv LEFT JOIN order_reg ON order_id = mss_order LEFT JOIN user_data ON user_id = mss_user WHERE user_id = " + int.Parse(id_user!) + " AND order_status = 'Available' ORDER BY order_cdate";
+                        using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                        {
+                            NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                            if (reader.HasRows)
+                            {
+                                DataTable dt = new DataTable();
+                                dt.Load(reader);
+                                dtgOrders.DataSource = dt;
+                                dtgOrders.Columns[0].Visible = false;
+                                btnAcceptOrder.Enabled = true;
+                            }
+                            else
+                            {
+                                dtgOrders.DataSource = "";
+                                btnAcceptOrder.Enabled = false;
+                                MessageBox.Show("Sorry, there are no available orders at the moment!", "Orders Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                            cmd.Dispose();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void dtgOrders_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            btnAcceptOrder.Enabled = true;
+        }
+
+        private void btnAcceptOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                conn.Open();
+
+                string sqlQuery = $"INSERT INTO order_receipt (rcpt_order, rcpt_user, rcpt_date) VALUES (@order_id, @user_id, @rcpt_date)";
+
+                using var cmd = new NpgsqlCommand(sqlQuery, conn);
+                {
+                    cmd.Parameters.AddWithValue("user_id", int.Parse(id_user!));
+                    cmd.Parameters.AddWithValue("order_id", dtgOrders.SelectedCells[0].Value);
+                    cmd.Parameters.AddWithValue("rcpt_date", DateTime.Today);
+                    cmd.Prepare();
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        cmd.Dispose();
+                        sqlQuery = $"UPDATE order_reg SET order_status = 'Accepted' WHERE order_id = @order_id";
+                        var updCmd = new NpgsqlCommand(sqlQuery, conn);
+                        updCmd.Parameters.AddWithValue("order_id", dtgOrders.SelectedCells[0].Value);
+                        updCmd.Prepare();
+
+                        if (updCmd.ExecuteNonQuery() > 0)
+                        {
+                            conn.Close();
+                            MessageBox.Show("Order accepted sucessfully!");
+                            StopConsuming();
+                            btnCheckOrder_Click(sender, e);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        private void dtgOrders_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dtgOrders.ClearSelection();
+            dtgOrders.CurrentCell = null;
+            btnAcceptOrder.Enabled = false;
+        }
+
+        private void pnlOrderStatus_VisibleChanged(object sender, EventArgs e)
+        {
+            if (pnlOrderStatus.Visible)
+            {
+                try
+                {
+                    conn.Open();
+
+                    string sqlQuery = $"SELECT order_id, order_label, order_desc, order_value FROM order_receipt LEFT JOIN order_reg on order_id = rcpt_order LEFT JOIN user_data on user_id = rcpt_user WHERE user_id = " + id_user;
+
+                    using var cmd = new NpgsqlCommand(sqlQuery, conn);
+                    {
+                        NpgsqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            lblOID.Text = reader.GetValue(0).ToString();
+                            lblOrderLabel.Text = reader.GetValue(1).ToString();
+                            lblOrderDesc.Text = reader.GetValue(2).ToString();
+                            lblOrderValue.Text = "R$" + reader.GetValue(3).ToString()!.Replace('.', ',');
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnCancelOrder_Click(object sender, EventArgs e)
+        {
+            var message_res = MessageBox.Show("Are you sure you want to cancel this order?", "Cancel Order", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (message_res == DialogResult.Yes)
+            {
+                try
+                {
+                    conn.Open();
+
+                    string sqlQuery;
+
+                    sqlQuery = $"UPDATE order_reg SET order_status = 'Available' WHERE order_id = @order_id";
+                    using var updCmd = new NpgsqlCommand(sqlQuery, conn);
+                    {
+                        updCmd.Parameters.AddWithValue("order_id", int.Parse(lblOID.Text.ToString()));
+                        updCmd.Prepare();
+                        if (updCmd.ExecuteNonQuery() > 0)
+                        {
+                            updCmd.Dispose();
+                            sqlQuery = $"DELETE FROM order_receipt WHERE rcpt_user = " + int.Parse(id_user!) + " AND rcpt_order = " + int.Parse(lblOID.Text);
+                            using var dltCmd = new NpgsqlCommand(sqlQuery, conn);
+                            {
+                                if (dltCmd.ExecuteNonQuery() > 0)
+                                {
+                                    conn.Close();
+                                    MessageBox.Show("Order Cancelled sucessfully!");
+                                    consume_message("ActiveRental");
+                                    btnCheckOrder_Click(sender, e);
+                                }
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void btnOrderDelivered_Click(object sender, EventArgs e)
+        {
+            var message_res = MessageBox.Show("Are you sure you want to mark this order as Delivered?", "Cancel Order", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (message_res == DialogResult.Yes)
+            {
+                try
+                {
+                    string sqlQuery;
+                    conn.Open();
+
+                    sqlQuery = $"UPDATE order_reg SET order_status = 'Delivered' WHERE order_id = @order_id";
+                    using var updCmd = new NpgsqlCommand(sqlQuery, conn);
+                    {
+                        updCmd.Parameters.AddWithValue("order_id", int.Parse(lblOID.Text.ToString()));
+                        updCmd.Prepare();
+
+                        if (updCmd.ExecuteNonQuery() > 0)
+                        {
+                            updCmd.Dispose();
+                            sqlQuery = $"DELETE FROM order_receipt WHERE rcpt_user = " + int.Parse(id_user!) + " AND rcpt_order = " + int.Parse(lblOID.Text);
+                            using var dltCmd = new NpgsqlCommand(sqlQuery, conn);
+                            {
+                                if (dltCmd.ExecuteNonQuery() > 0)
+                                {
+                                    conn.Close();
+                                    MessageBox.Show("Order Delivered sucessfully!");
+                                    consume_message("ActiveRental");
+                                    btnCheckOrder_Click(sender, e);
+                                }
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void consume_message(string routing_key)
+        {
+            factory = new ConnectionFactory { Uri = new Uri("amqps://ypxyhvgw:AC8vtAVO-bi0kb79QFJYIum3UzAYDH3J@jackal.rmq.cloudamqp.com/ypxyhvgw") };
+            connection = factory.CreateConnection();
+            channel = connection.CreateModel();
+
+            channel.ExchangeDeclare(exchange: "newOrderAvailable", ExchangeType.Direct);
+
+            var queueName = channel.QueueDeclare().QueueName;
+            channel.QueueBind(queue: queueName, exchange: "newOrderAvailable", routingKey: routing_key);
+
+            consumer = new EventingBasicConsumer(channel);
+
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                var response = MessageBox.Show("New order arrived! Do you want to check it now?", "New order available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                insert_mss(int.Parse(message));
+
+                if (response == DialogResult.Yes)
+                {
+                    if (conn.State.Equals("Open"))
+                        conn.Close();
+
+                    btnCheckOrder_Click(string.Empty, EventArgs.Empty);
+                }
+            };
+
+            basicConsumer = channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+        }
+
+        static void StopConsuming()
+        {
+            channel!.BasicCancel(basicConsumer);
+            
+            channel.Close();
+            connection!.Close();
+
+            Console.WriteLine("Consumer stopped.");
+        }
+
+        private void insert_mss(int order_id)
+        {
+            try
+            {
+                conn.Open();
+                string sqlQuery = $"INSERT INTO mss_rcv (mss_order, mss_user) VALUES (@order, @user)";
+
+                using var cmd = new NpgsqlCommand(sqlQuery, conn);
+                
+                cmd.Parameters.AddWithValue("user", int.Parse(id_user!));
+                cmd.Parameters.AddWithValue("order", order_id);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
             }
         }
     }

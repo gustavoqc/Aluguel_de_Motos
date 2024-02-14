@@ -30,6 +30,8 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             cldRentalPreview = new MonthCalendar();
             btnRentVh = new Button();
             btnRentalStatus = new Button();
@@ -122,6 +124,22 @@
             label27 = new Label();
             btnUpdateImg = new Button();
             imgDL = new PictureBox();
+            btnCheckOrder = new Button();
+            pnlCheckOrder = new Panel();
+            btnAcceptOrder = new Button();
+            dtgOrders = new DataGridView();
+            pnlOrderStatus = new Panel();
+            lblOID = new Label();
+            btnCancelOrder = new Button();
+            btnOrderDelivered = new Button();
+            label41 = new Label();
+            panel8 = new Panel();
+            lblOrderValue = new Label();
+            label43 = new Label();
+            lblOrderLabel = new Label();
+            lblOrderDesc = new Label();
+            label48 = new Label();
+            label49 = new Label();
             pnlRentVh.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -135,6 +153,10 @@
             panel4.SuspendLayout();
             pnlProfile.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgDL).BeginInit();
+            pnlCheckOrder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgOrders).BeginInit();
+            pnlOrderStatus.SuspendLayout();
+            panel8.SuspendLayout();
             SuspendLayout();
             // 
             // cldRentalPreview
@@ -172,17 +194,17 @@
             // 
             btnRentalStatus.AutoSize = true;
             btnRentalStatus.BackColor = Color.Transparent;
+            btnRentalStatus.Enabled = false;
             btnRentalStatus.FlatAppearance.BorderColor = SystemColors.Control;
             btnRentalStatus.FlatAppearance.BorderSize = 0;
             btnRentalStatus.FlatStyle = FlatStyle.Flat;
             btnRentalStatus.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRentalStatus.Location = new Point(0, 114);
+            btnRentalStatus.Location = new Point(0, 101);
             btnRentalStatus.Name = "btnRentalStatus";
             btnRentalStatus.Size = new Size(152, 29);
             btnRentalStatus.TabIndex = 9;
             btnRentalStatus.Text = "Rental Stats";
             btnRentalStatus.UseVisualStyleBackColor = false;
-            btnRentalStatus.Visible = false;
             btnRentalStatus.Click += btnRentalStatus_Click;
             // 
             // pnlRentVh
@@ -199,7 +221,7 @@
             pnlRentVh.Controls.Add(panel1);
             pnlRentVh.Location = new Point(152, -9);
             pnlRentVh.Name = "pnlRentVh";
-            pnlRentVh.Size = new Size(846, 425);
+            pnlRentVh.Size = new Size(836, 425);
             pnlRentVh.TabIndex = 12;
             // 
             // label15
@@ -1033,7 +1055,7 @@
             btnProfile.FlatAppearance.BorderSize = 0;
             btnProfile.FlatStyle = FlatStyle.Flat;
             btnProfile.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnProfile.Location = new Point(0, 75);
+            btnProfile.Location = new Point(0, 133);
             btnProfile.Name = "btnProfile";
             btnProfile.Size = new Size(152, 29);
             btnProfile.TabIndex = 29;
@@ -1050,7 +1072,7 @@
             btnLogOut.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 128);
             btnLogOut.FlatStyle = FlatStyle.Flat;
             btnLogOut.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLogOut.Location = new Point(0, 150);
+            btnLogOut.Location = new Point(0, 163);
             btnLogOut.Name = "btnLogOut";
             btnLogOut.Size = new Size(152, 29);
             btnLogOut.TabIndex = 30;
@@ -1203,20 +1225,239 @@
             imgDL.TabStop = false;
             imgDL.Click += imgDL_Click;
             // 
+            // btnCheckOrder
+            // 
+            btnCheckOrder.AutoSize = true;
+            btnCheckOrder.BackColor = Color.Transparent;
+            btnCheckOrder.Enabled = false;
+            btnCheckOrder.FlatAppearance.BorderColor = SystemColors.Control;
+            btnCheckOrder.FlatAppearance.BorderSize = 0;
+            btnCheckOrder.FlatStyle = FlatStyle.Flat;
+            btnCheckOrder.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCheckOrder.Location = new Point(0, 70);
+            btnCheckOrder.Name = "btnCheckOrder";
+            btnCheckOrder.Size = new Size(152, 29);
+            btnCheckOrder.TabIndex = 35;
+            btnCheckOrder.Text = "Check Orders";
+            btnCheckOrder.UseVisualStyleBackColor = false;
+            btnCheckOrder.Click += btnCheckOrder_Click;
+            // 
+            // pnlCheckOrder
+            // 
+            pnlCheckOrder.BackColor = SystemColors.Control;
+            pnlCheckOrder.BorderStyle = BorderStyle.FixedSingle;
+            pnlCheckOrder.Controls.Add(btnAcceptOrder);
+            pnlCheckOrder.Controls.Add(dtgOrders);
+            pnlCheckOrder.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pnlCheckOrder.Location = new Point(152, -2);
+            pnlCheckOrder.Name = "pnlCheckOrder";
+            pnlCheckOrder.Size = new Size(560, 418);
+            pnlCheckOrder.TabIndex = 36;
+            pnlCheckOrder.Visible = false;
+            // 
+            // btnAcceptOrder
+            // 
+            btnAcceptOrder.AutoSize = true;
+            btnAcceptOrder.FlatStyle = FlatStyle.Flat;
+            btnAcceptOrder.Location = new Point(216, 352);
+            btnAcceptOrder.Name = "btnAcceptOrder";
+            btnAcceptOrder.Size = new Size(118, 30);
+            btnAcceptOrder.TabIndex = 36;
+            btnAcceptOrder.Text = "Accept Order";
+            btnAcceptOrder.UseVisualStyleBackColor = true;
+            btnAcceptOrder.Click += btnAcceptOrder_Click;
+            // 
+            // dtgOrders
+            // 
+            dtgOrders.AllowUserToAddRows = false;
+            dtgOrders.AllowUserToResizeColumns = false;
+            dtgOrders.AllowUserToResizeRows = false;
+            dtgOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgOrders.BackgroundColor = SystemColors.Control;
+            dtgOrders.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            dtgOrders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.LightGray;
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgOrders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.LightBlue;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgOrders.DefaultCellStyle = dataGridViewCellStyle4;
+            dtgOrders.EnableHeadersVisualStyles = false;
+            dtgOrders.Location = new Point(23, 36);
+            dtgOrders.MultiSelect = false;
+            dtgOrders.Name = "dtgOrders";
+            dtgOrders.RightToLeft = RightToLeft.No;
+            dtgOrders.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dtgOrders.RowHeadersVisible = false;
+            dtgOrders.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            dtgOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgOrders.Size = new Size(514, 302);
+            dtgOrders.TabIndex = 35;
+            dtgOrders.CellClick += dtgOrders_CellClick;
+            dtgOrders.DataBindingComplete += dtgOrders_DataBindingComplete;
+            // 
+            // pnlOrderStatus
+            // 
+            pnlOrderStatus.BackColor = SystemColors.Control;
+            pnlOrderStatus.BorderStyle = BorderStyle.FixedSingle;
+            pnlOrderStatus.Controls.Add(lblOID);
+            pnlOrderStatus.Controls.Add(btnCancelOrder);
+            pnlOrderStatus.Controls.Add(btnOrderDelivered);
+            pnlOrderStatus.Controls.Add(label41);
+            pnlOrderStatus.Controls.Add(panel8);
+            pnlOrderStatus.Location = new Point(152, -8);
+            pnlOrderStatus.Name = "pnlOrderStatus";
+            pnlOrderStatus.Size = new Size(560, 422);
+            pnlOrderStatus.TabIndex = 37;
+            pnlOrderStatus.Visible = false;
+            pnlOrderStatus.VisibleChanged += pnlOrderStatus_VisibleChanged;
+            // 
+            // lblOID
+            // 
+            lblOID.AutoSize = true;
+            lblOID.Enabled = false;
+            lblOID.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOID.Location = new Point(17, 369);
+            lblOID.Name = "lblOID";
+            lblOID.Size = new Size(23, 19);
+            lblOID.TabIndex = 9;
+            lblOID.Text = "Id";
+            lblOID.Visible = false;
+            // 
+            // btnCancelOrder
+            // 
+            btnCancelOrder.AutoSize = true;
+            btnCancelOrder.FlatStyle = FlatStyle.Flat;
+            btnCancelOrder.Location = new Point(379, 302);
+            btnCancelOrder.Name = "btnCancelOrder";
+            btnCancelOrder.Size = new Size(162, 30);
+            btnCancelOrder.TabIndex = 8;
+            btnCancelOrder.Text = "Cancel Order";
+            btnCancelOrder.UseVisualStyleBackColor = true;
+            btnCancelOrder.Click += btnCancelOrder_Click;
+            // 
+            // btnOrderDelivered
+            // 
+            btnOrderDelivered.AutoSize = true;
+            btnOrderDelivered.FlatStyle = FlatStyle.Flat;
+            btnOrderDelivered.Location = new Point(17, 309);
+            btnOrderDelivered.Name = "btnOrderDelivered";
+            btnOrderDelivered.Size = new Size(162, 30);
+            btnOrderDelivered.TabIndex = 7;
+            btnOrderDelivered.Text = "Mark as Delivered";
+            btnOrderDelivered.UseVisualStyleBackColor = true;
+            btnOrderDelivered.Click += btnOrderDelivered_Click;
+            // 
+            // label41
+            // 
+            label41.AutoSize = true;
+            label41.Location = new Point(231, 48);
+            label41.Name = "label41";
+            label41.Size = new Size(76, 18);
+            label41.TabIndex = 5;
+            label41.Text = "Order Info";
+            // 
+            // panel8
+            // 
+            panel8.BorderStyle = BorderStyle.FixedSingle;
+            panel8.Controls.Add(lblOrderValue);
+            panel8.Controls.Add(label43);
+            panel8.Controls.Add(lblOrderLabel);
+            panel8.Controls.Add(lblOrderDesc);
+            panel8.Controls.Add(label48);
+            panel8.Controls.Add(label49);
+            panel8.Location = new Point(17, 56);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(524, 231);
+            panel8.TabIndex = 6;
+            // 
+            // lblOrderValue
+            // 
+            lblOrderValue.AutoSize = true;
+            lblOrderValue.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOrderValue.Location = new Point(89, 165);
+            lblOrderValue.Name = "lblOrderValue";
+            lblOrderValue.Size = new Size(51, 19);
+            lblOrderValue.TabIndex = 7;
+            lblOrderValue.Text = "Value";
+            // 
+            // label43
+            // 
+            label43.AutoSize = true;
+            label43.Location = new Point(16, 165);
+            label43.Name = "label43";
+            label43.Size = new Size(75, 18);
+            label43.TabIndex = 6;
+            label43.Text = "Value: R$";
+            // 
+            // lblOrderLabel
+            // 
+            lblOrderLabel.AutoSize = true;
+            lblOrderLabel.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOrderLabel.Location = new Point(59, 23);
+            lblOrderLabel.MaximumSize = new Size(454, 19);
+            lblOrderLabel.Name = "lblOrderLabel";
+            lblOrderLabel.Size = new Size(51, 19);
+            lblOrderLabel.TabIndex = 5;
+            lblOrderLabel.Text = "Label";
+            // 
+            // lblOrderDesc
+            // 
+            lblOrderDesc.AutoSize = true;
+            lblOrderDesc.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOrderDesc.Location = new Point(62, 51);
+            lblOrderDesc.MaximumSize = new Size(451, 105);
+            lblOrderDesc.Name = "lblOrderDesc";
+            lblOrderDesc.Size = new Size(39, 19);
+            lblOrderDesc.TabIndex = 3;
+            lblOrderDesc.Text = "Dec";
+            // 
+            // label48
+            // 
+            label48.AutoSize = true;
+            label48.Location = new Point(8, 52);
+            label48.Name = "label48";
+            label48.Size = new Size(49, 18);
+            label48.TabIndex = 1;
+            label48.Text = "Desc:";
+            // 
+            // label49
+            // 
+            label49.AutoSize = true;
+            label49.Location = new Point(9, 23);
+            label49.Name = "label49";
+            label49.Size = new Size(51, 18);
+            label49.TabIndex = 0;
+            label49.Text = "Label:";
+            // 
             // form_user_int
             // 
             AutoScaleDimensions = new SizeF(9F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(980, 411);
+            Controls.Add(btnCheckOrder);
             Controls.Add(btnLogOut);
             Controls.Add(btnProfile);
             Controls.Add(btnRentVh);
             Controls.Add(btnRentalStatus);
+            Controls.Add(pnlSelectVh);
+            Controls.Add(pnlRentStat);
+            Controls.Add(pnlCheckOrder);
             Controls.Add(pnlRentVh);
             Controls.Add(pnlProfile);
-            Controls.Add(pnlSelectVh);
             Controls.Add(pnlRentalSol);
-            Controls.Add(pnlRentStat);
+            Controls.Add(pnlOrderStatus);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4);
@@ -1249,6 +1490,13 @@
             pnlProfile.ResumeLayout(false);
             pnlProfile.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)imgDL).EndInit();
+            pnlCheckOrder.ResumeLayout(false);
+            pnlCheckOrder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgOrders).EndInit();
+            pnlOrderStatus.ResumeLayout(false);
+            pnlOrderStatus.PerformLayout();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1347,5 +1595,21 @@
         private Label lblProfDLC;
         private Label label40;
         private Label lblProfBirth;
+        private Button btnCheckOrder;
+        private Panel pnlCheckOrder;
+        private DataGridView dtgOrders;
+        private Button btnAcceptOrder;
+        private Panel pnlOrderStatus;
+        private Label label41;
+        private Panel panel8;
+        private Label lblOrderValue;
+        private Label label43;
+        private Label lblOrderLabel;
+        private Label lblOrderDesc;
+        private Label label48;
+        private Label label49;
+        private Button btnCancelOrder;
+        private Button btnOrderDelivered;
+        private Label lblOID;
     }
 }

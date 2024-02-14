@@ -30,6 +30,8 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             btnNewVh = new Button();
             btnCheckVh = new Button();
             pnlNewVh = new Panel();
@@ -61,10 +63,20 @@
             dtCreationD = new DateTimePicker();
             label5 = new Label();
             btnCreateOrder = new Button();
+            btnCheckOrder = new Button();
+            pnlCheckOrder = new Panel();
+            btnBackOrders = new Button();
+            label10 = new Label();
+            btnCheckDrivers = new Button();
+            btnDeleteOrder = new Button();
+            btnEditOrder = new Button();
+            dtgOrders = new DataGridView();
             pnlNewVh.SuspendLayout();
             pnlCheckVh.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtgListVh).BeginInit();
             pnlNewOrder.SuspendLayout();
+            pnlCheckOrder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgOrders).BeginInit();
             SuspendLayout();
             // 
             // btnNewVh
@@ -75,7 +87,7 @@
             btnNewVh.FlatAppearance.BorderSize = 0;
             btnNewVh.FlatStyle = FlatStyle.Flat;
             btnNewVh.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNewVh.Location = new Point(-3, 77);
+            btnNewVh.Location = new Point(-3, 103);
             btnNewVh.Name = "btnNewVh";
             btnNewVh.Size = new Size(152, 29);
             btnNewVh.TabIndex = 2;
@@ -314,7 +326,7 @@
             btnLogOut.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 128, 128);
             btnLogOut.FlatStyle = FlatStyle.Flat;
             btnLogOut.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLogOut.Location = new Point(-3, 144);
+            btnLogOut.Location = new Point(-3, 170);
             btnLogOut.Name = "btnLogOut";
             btnLogOut.Size = new Size(152, 29);
             btnLogOut.TabIndex = 31;
@@ -330,7 +342,7 @@
             btnNewOrder.FlatAppearance.BorderSize = 0;
             btnNewOrder.FlatStyle = FlatStyle.Flat;
             btnNewOrder.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNewOrder.Location = new Point(-3, 111);
+            btnNewOrder.Location = new Point(-3, 136);
             btnNewOrder.Name = "btnNewOrder";
             btnNewOrder.Size = new Size(152, 29);
             btnNewOrder.TabIndex = 32;
@@ -365,13 +377,13 @@
             btnCancelOrder.AutoSize = true;
             btnCancelOrder.FlatStyle = FlatStyle.Flat;
             btnCancelOrder.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCancelOrder.Location = new Point(201, 316);
+            btnCancelOrder.Location = new Point(201, 285);
             btnCancelOrder.Name = "btnCancelOrder";
             btnCancelOrder.Size = new Size(122, 31);
             btnCancelOrder.TabIndex = 45;
             btnCancelOrder.Text = "Cancel";
             btnCancelOrder.UseVisualStyleBackColor = true;
-            btnCancelOrder.Click += btnCancelUpdate_Click;
+            btnCancelOrder.Click += btnCancelOrder_Click;
             // 
             // txtDesc
             // 
@@ -436,25 +448,27 @@
             // 
             dtCreationD.Enabled = false;
             dtCreationD.Format = DateTimePickerFormat.Short;
-            dtCreationD.Location = new Point(142, 263);
+            dtCreationD.Location = new Point(142, 338);
             dtCreationD.Name = "dtCreationD";
-            dtCreationD.Size = new Size(100, 26);
+            dtCreationD.Size = new Size(104, 26);
             dtCreationD.TabIndex = 35;
+            dtCreationD.Visible = false;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(32, 269);
+            label5.Location = new Point(32, 344);
             label5.Name = "label5";
             label5.Size = new Size(110, 18);
             label5.TabIndex = 33;
             label5.Text = "Creation Date:";
+            label5.Visible = false;
             // 
             // btnCreateOrder
             // 
             btnCreateOrder.AutoSize = true;
             btnCreateOrder.FlatStyle = FlatStyle.Flat;
-            btnCreateOrder.Location = new Point(32, 317);
+            btnCreateOrder.Location = new Point(32, 286);
             btnCreateOrder.Name = "btnCreateOrder";
             btnCreateOrder.Size = new Size(147, 30);
             btnCreateOrder.TabIndex = 44;
@@ -462,15 +476,163 @@
             btnCreateOrder.UseVisualStyleBackColor = true;
             btnCreateOrder.Click += btnCreateOrder_Click;
             // 
+            // btnCheckOrder
+            // 
+            btnCheckOrder.AutoSize = true;
+            btnCheckOrder.BackColor = Color.Transparent;
+            btnCheckOrder.FlatAppearance.BorderColor = SystemColors.Control;
+            btnCheckOrder.FlatAppearance.BorderSize = 0;
+            btnCheckOrder.FlatStyle = FlatStyle.Flat;
+            btnCheckOrder.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCheckOrder.Location = new Point(-3, 72);
+            btnCheckOrder.Name = "btnCheckOrder";
+            btnCheckOrder.Size = new Size(152, 29);
+            btnCheckOrder.TabIndex = 33;
+            btnCheckOrder.Text = "Check Orders";
+            btnCheckOrder.UseVisualStyleBackColor = false;
+            btnCheckOrder.Click += btnCheckOrder_Click;
+            // 
+            // pnlCheckOrder
+            // 
+            pnlCheckOrder.BackColor = SystemColors.Control;
+            pnlCheckOrder.BorderStyle = BorderStyle.FixedSingle;
+            pnlCheckOrder.Controls.Add(btnBackOrders);
+            pnlCheckOrder.Controls.Add(label10);
+            pnlCheckOrder.Controls.Add(btnCheckDrivers);
+            pnlCheckOrder.Controls.Add(btnDeleteOrder);
+            pnlCheckOrder.Controls.Add(btnEditOrder);
+            pnlCheckOrder.Controls.Add(dtgOrders);
+            pnlCheckOrder.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            pnlCheckOrder.Location = new Point(149, -7);
+            pnlCheckOrder.Name = "pnlCheckOrder";
+            pnlCheckOrder.Size = new Size(560, 390);
+            pnlCheckOrder.TabIndex = 34;
+            pnlCheckOrder.Visible = false;
+            // 
+            // btnBackOrders
+            // 
+            btnBackOrders.AutoSize = true;
+            btnBackOrders.BackColor = SystemColors.Control;
+            btnBackOrders.FlatAppearance.BorderColor = Color.Black;
+            btnBackOrders.FlatStyle = FlatStyle.Flat;
+            btnBackOrders.Location = new Point(316, 21);
+            btnBackOrders.Name = "btnBackOrders";
+            btnBackOrders.Size = new Size(65, 30);
+            btnBackOrders.TabIndex = 40;
+            btnBackOrders.Text = "Back";
+            btnBackOrders.UseVisualStyleBackColor = false;
+            btnBackOrders.Visible = false;
+            btnBackOrders.Click += btnBackOrders_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(19, 27);
+            label10.Name = "label10";
+            label10.Size = new Size(291, 18);
+            label10.TabIndex = 39;
+            label10.Text = "Check delivery drivers for selected order:";
+            // 
+            // btnCheckDrivers
+            // 
+            btnCheckDrivers.AutoSize = true;
+            btnCheckDrivers.BackColor = Color.LightGray;
+            btnCheckDrivers.Enabled = false;
+            btnCheckDrivers.FlatAppearance.BorderColor = Color.Black;
+            btnCheckDrivers.FlatStyle = FlatStyle.Flat;
+            btnCheckDrivers.Location = new Point(316, 21);
+            btnCheckDrivers.Name = "btnCheckDrivers";
+            btnCheckDrivers.Size = new Size(65, 30);
+            btnCheckDrivers.TabIndex = 38;
+            btnCheckDrivers.Text = "Check";
+            btnCheckDrivers.UseVisualStyleBackColor = false;
+            btnCheckDrivers.EnabledChanged += btnCheckDrivers_EnabledChanged;
+            btnCheckDrivers.Click += btnCheckDrivers_Click;
+            // 
+            // btnDeleteOrder
+            // 
+            btnDeleteOrder.BackColor = Color.LightGray;
+            btnDeleteOrder.BackgroundImage = Properties.Resources.delete_Icon;
+            btnDeleteOrder.BackgroundImageLayout = ImageLayout.Stretch;
+            btnDeleteOrder.Enabled = false;
+            btnDeleteOrder.FlatAppearance.BorderColor = Color.Black;
+            btnDeleteOrder.FlatStyle = FlatStyle.Flat;
+            btnDeleteOrder.Location = new Point(503, 21);
+            btnDeleteOrder.Name = "btnDeleteOrder";
+            btnDeleteOrder.RightToLeft = RightToLeft.No;
+            btnDeleteOrder.Size = new Size(30, 30);
+            btnDeleteOrder.TabIndex = 37;
+            btnDeleteOrder.UseVisualStyleBackColor = false;
+            btnDeleteOrder.EnabledChanged += btnDeleteOrder_EnabledChanged;
+            btnDeleteOrder.Click += btnDeleteOrder_Click;
+            // 
+            // btnEditOrder
+            // 
+            btnEditOrder.BackColor = Color.LightGray;
+            btnEditOrder.BackgroundImage = Properties.Resources.update;
+            btnEditOrder.BackgroundImageLayout = ImageLayout.Zoom;
+            btnEditOrder.Enabled = false;
+            btnEditOrder.FlatAppearance.BorderColor = Color.Black;
+            btnEditOrder.FlatStyle = FlatStyle.Flat;
+            btnEditOrder.Location = new Point(467, 21);
+            btnEditOrder.Name = "btnEditOrder";
+            btnEditOrder.Size = new Size(30, 30);
+            btnEditOrder.TabIndex = 36;
+            btnEditOrder.UseVisualStyleBackColor = false;
+            btnEditOrder.EnabledChanged += btnEditOrder_EnabledChanged;
+            btnEditOrder.Click += btnEditOrder_Click;
+            // 
+            // dtgOrders
+            // 
+            dtgOrders.AllowUserToAddRows = false;
+            dtgOrders.AllowUserToResizeColumns = false;
+            dtgOrders.AllowUserToResizeRows = false;
+            dtgOrders.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dtgOrders.BackgroundColor = SystemColors.Control;
+            dtgOrders.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            dtgOrders.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.LightGray;
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dtgOrders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dtgOrders.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = Color.LightBlue;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dtgOrders.DefaultCellStyle = dataGridViewCellStyle4;
+            dtgOrders.EnableHeadersVisualStyles = false;
+            dtgOrders.Location = new Point(19, 63);
+            dtgOrders.MultiSelect = false;
+            dtgOrders.Name = "dtgOrders";
+            dtgOrders.RightToLeft = RightToLeft.No;
+            dtgOrders.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dtgOrders.RowHeadersVisible = false;
+            dtgOrders.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            dtgOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dtgOrders.Size = new Size(514, 310);
+            dtgOrders.TabIndex = 35;
+            dtgOrders.CellClick += dtgOrders_CellClick;
+            dtgOrders.DataBindingComplete += dtgOrders_DataBindingComplete;
+            // 
             // form_admin_int
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(702, 381);
+            Controls.Add(btnCheckOrder);
             Controls.Add(btnNewOrder);
             Controls.Add(btnLogOut);
             Controls.Add(btnCheckVh);
             Controls.Add(btnNewVh);
+            Controls.Add(pnlCheckOrder);
             Controls.Add(pnlNewOrder);
             Controls.Add(pnlNewVh);
             Controls.Add(pnlCheckVh);
@@ -485,6 +647,9 @@
             ((System.ComponentModel.ISupportInitialize)dtgListVh).EndInit();
             pnlNewOrder.ResumeLayout(false);
             pnlNewOrder.PerformLayout();
+            pnlCheckOrder.ResumeLayout(false);
+            pnlCheckOrder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dtgOrders).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -521,5 +686,13 @@
         private TextBox txtDesc;
         private Label label9;
         private Button btnCancelOrder;
+        private Button btnCheckOrder;
+        private Panel pnlCheckOrder;
+        private DataGridView dtgOrders;
+        private Label label10;
+        private Button btnCheckDrivers;
+        private Button btnDeleteOrder;
+        private Button btnEditOrder;
+        private Button btnBackOrders;
     }
 }

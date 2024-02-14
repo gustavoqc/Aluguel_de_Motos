@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "rim3ZKg9QxFUL21O6he6meUMGEtvCBIXWfpn/6SsEadpA5gpdp3GNLZydbinYC4x+n0Uo625BUQm0TKHM2t67Q==",
+  "dgSpecHash": "0Or3HIQ4LNjf9cimqi1gxQCESBnjQ5mB1FUN2Padi4KXYqAJyFCIzYO/k5Um17xR9X2r2XNfZgeRLHwT4uFA/A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gusta\\source\\repos\\Aplicacao-para-Aluguel-de-Motos\\Aluguel_Moto\\Aluguel_Moto\\Aluguel_Moto.csproj",
+  "projectFilePath": "C:\\Users\\gusta\\Source\\Repos\\Vh_Rental\\Aluguel_Moto\\Aluguel_Moto.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\gusta\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\gusta\\.nuget\\packages\\npgsql\\8.0.1\\npgsql.8.0.1.nupkg.sha512"
+    "C:\\Users\\gusta\\.nuget\\packages\\npgsql\\8.0.1\\npgsql.8.0.1.nupkg.sha512",
+    "C:\\Users\\gusta\\.nuget\\packages\\rabbitmq.client\\6.8.1\\rabbitmq.client.6.8.1.nupkg.sha512",
+    "C:\\Users\\gusta\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\gusta\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }
