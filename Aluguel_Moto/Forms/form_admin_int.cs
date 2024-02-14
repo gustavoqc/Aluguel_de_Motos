@@ -570,7 +570,13 @@ namespace Aluguel_Moto
 
                     try
                     {
-                        string sqlQuery = $"DELETE FROM order_reg WHERE order_id = '" + dtgOrders.SelectedCells[0].Value.ToString() + "'";
+                        string sqlQuery = $"DELETE FROM mss_rcv WHERE mss_order = '" + dtgOrders.SelectedCells[0].Value.ToString() + "'";
+                        using (var cmd = new NpgsqlCommand(sqlQuery, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        sqlQuery = $"DELETE FROM order_reg WHERE order_id = '" + dtgOrders.SelectedCells[0].Value.ToString() + "'";
                         using (var cmd = new NpgsqlCommand(sqlQuery, conn))
                         {
                             if (cmd.ExecuteNonQuery() > 0)
@@ -579,10 +585,6 @@ namespace Aluguel_Moto
 
                                 conn.Close();
                                 List_Orders();
-                            }
-                            else
-                            {
-                                MessageBox.Show("There was an error while proccessing your requisition.");
                             }
                         }
                     }
