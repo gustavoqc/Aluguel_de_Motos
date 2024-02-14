@@ -1,5 +1,5 @@
 # Sistema de Aluguel de Motos para Delivery
-Este é um sistema de simulação de aluguel de motos, projetado para suportar operações de entrega de pedidos em uma plataforma única. A aplicação permite que os usuários administrem o aluguel de motos e também recebam pedidos de entrega através da mesma plataforma.
+Este é um sistema simples de simulação de aluguel de motos, projetado para permitir o aluguel de motos e entrega de pedidos em uma plataforma única. 
 
 # Funcionalidades Principais:
 ### Usuário entregador:
