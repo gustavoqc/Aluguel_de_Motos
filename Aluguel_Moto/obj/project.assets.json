@@ -309,11 +309,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gusta\\Source\\Repos\\Vh_Rental\\Aluguel_Moto\\Aluguel_Moto.csproj",
+      "projectUniqueName": "C:\\Users\\gusta\\Source\\Repos\\Aluguel_de_Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
       "projectName": "Aluguel_Moto",
-      "projectPath": "C:\\Users\\gusta\\Source\\Repos\\Vh_Rental\\Aluguel_Moto\\Aluguel_Moto.csproj",
+      "projectPath": "C:\\Users\\gusta\\Source\\Repos\\Aluguel_de_Motos\\Aluguel_Moto\\Aluguel_Moto.csproj",
       "packagesPath": "C:\\Users\\gusta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gusta\\Source\\Repos\\Vh_Rental\\Aluguel_Moto\\obj\\",
+      "outputPath": "C:\\Users\\gusta\\Source\\Repos\\Aluguel_de_Motos\\Aluguel_Moto\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
