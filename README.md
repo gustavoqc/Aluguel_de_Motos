@@ -9,13 +9,13 @@ Os usuários podem aceitar pedidos de entrega através da plataforma.
 
 ### Usuário Admin:
 
-**Usuário Admin Cadastrado:**</br>
-**Login: 000123456789**  </br>
-**Senha: @Admin**</br>
-
 Cadastrar novas motos para aluguel, assim como editar e excluir se necessário.</br>
 Cadastrar novos pedidos e verificar entregadores aptos a aceitar tal pedido.</br>
-Editar e exluir pedidos que ainda não foram aceitos ou entregues. 
+Editar e exluir pedidos que ainda não foram aceitos ou entregues. <br>
+  
+**Usuário Admin Cadastrado:**</br>
+Login: **000123456789**  </br>
+Senha: **@Admin**</br>
 
 # Tecnologias Utilizadas:
 **C#**: A aplicação é desenvolvida majoritariamente em C#.
